@@ -1,0 +1,131 @@
+1)
+I decided to make doSomething and doDamage in Actor.h pure virtual
+because I was never intending on making an Actor object and each
+object derived from Actor will make use of doSomething and doDamage
+in different ways. The other member function in Actor were regular 
+member function because every object derived from Actor will use 
+those function the same way. In the enemy class, I created a 
+makeAMove function that was also pure virtual. This was because
+every enemy will make a move, but not every enemy moves in the same
+way. All other member function was regular because every enemy will
+use them in the same way. In Actor, the setAlive function was used
+to determine which object were alive or dead. This was very useful
+being that I could run through all object and delete the ones that
+were dead. In Actor, checkIfAlive simple alowed me to check if an
+object was alive by returning true or false. In Actor, the 
+setStudentWorld function allowed me to have access to the 
+StudentWorld class. The StudentWorld class held all other objects
+and with this information I was able to control the entire game.
+In the Wall class there was basically nothing going on besides setting
+the object to Alive and Visible, doDamage and doSomething simply
+returned GWSTATUS_CONTINUE_GAME. In the Hostage class the same thing
+was the case except that doSomething check to see if the player was
+at the same location as the Hostage and if so, the Hostage was set
+to dead and Hostage count in StudentWorld was decremented. The Player
+class was the more complicated of all the classes. It's doSomething 
+function had to determine what key was pressed and take appropriate 
+actions. Whether it was firing a bullet, changing direction, or moving,
+the Player class had to figure out what to do and if it was even allowed.
+The Player class also had many functions that kept track of ammo, hitPoints,
+if it has fired a bullet, and also which sublevel it was currently in.
+The Bullet class was fairly simple. No damage could be done to a bullet,
+but the Bullet had to be able to move correctly. It also had to check if
+it has hit anything and apply the appropriate damage to whatever it has
+hit. All of the Goodies were very simple. The doDamage function did nothing,
+but the doSomething function had to check if the player was on the location
+of the Goodie. Certain Goodies also had to check if a Bully was at its
+location as well. In the case that the player was at the location of the
+Goodie, the Goodie would be set dead and add ammo, health, or gold to the
+player. In the case that a Bully was at the location of the Goodie, the
+Goodie would be set dead and the Bully would pick up and transport the
+Goodie to where ever the Bully is. When the Bully dies, the Goodie will be
+reconstructed to the new location and reappear for the player to see again.
+The gate class had an added normal function called getLevelToTransportTo()
+This function simply returned the sublevel the player is to be transported
+to. The doDamage function did nothing but return continue game and the 
+doSomething function let StudentWorld class know which subLevel the player
+was being transported to and also destroyed and recreated the player in
+that subLevel. The Exits class doSomething would check to see if all 
+Hostages, Gold and RobotBosses were killed/collected and then it would
+display the exit. Once the exit was reached the class would award the 
+appropriate points and continue to the next level. The Enemy class was
+a bit more complicated. Being that every enemy had to make moves based 
+on ticks, the enemy class provided its derived classes functions setTicks,
+getTicks, and decTicks. In addition to these functions, Enemy class also
+had hitPoints similar to the player class. Gangster class doSomething
+would check if the player was in sight and fire a bullet if so. If not
+the gangster would move horizontally or vertically until it reached an
+object that it could not pass through. Then it would turn around and repeat.
+If the gangster was killed, a waterpool would appear for 30 ticks blocking
+the player from moving on the coord. The waterpool class would simply last
+for 30 ticks and then die. The bullynest class doSomething would check to 
+make sure that no more than 2 bullies were nearby and that no bully was on 
+top of the nest. If this was true, the nest would create a bully. The bully
+itself had a few functions. A few of them would check how many moves the
+bully could make in a straight line before deciding to turn in a different
+direction. doSomething was similar to gangster being that if the bully was
+in sight it would fire a bullet towards the player. If not, the bully would
+just move. If the player was nearby, the bully would change direction to face
+the player. RobotBoss class doSomething was almost identical to gangster. The
+only difference was that when a RobotBoss died it would create hostage instead
+of a waterpool. The Farplane gun doSomething would check to see if the player
+was on its coord. If so the farplane gun would kill all bullies and gangster
+within a certain area.
+
+2)
+I feel like I have finished all functionallity of the game. There was nothing
+that I found that was not working properly.
+
+3)
+I decided to make the bullies face the player if the player was nearby. This 
+was not specified, but I felt that it added a nice challenge to the game and
+code.
+
+4)
+I basically tested as I coded. I would code one class at a time and one function 
+at a time. After every function I would test the code by running the game and
+determining if it was doing what I expected. Many problems did not become 
+apparent until the game was close to being finished. Things like bullets traveling
+through the player or enemies in weird situations, animation issues, and just 
+strange bugs that did not show up during the first go around. 
+
+The Wall class was tested first by simply getting the walls to display. Once
+the walls were displaying, I was able to test the walls using the player object
+by asking the player to walk into a wall. Also the bullet class help test this
+as well.
+
+The Hostage class simply needed to display and not display. This did not take 
+much testing.
+
+The Player class was tested throughout the entire process of making the game.
+Everytime a new class was added or a new feature was added, the player class
+needed to be tested to make sure everything was working properly. Everything
+from health to ammo needed to be tested and retested whenever something new
+was added to the game.
+
+The Bullet class was a similar procedure being that many objects used or
+interacted with the bullet. Every time a new class was added, the bullet
+class needed to be retested to make sure the code ran as expected.
+
+All Goodie, Gates, and Exit classes were tested multiple times throughout the
+code as well. Goodies had to interact with bullies and the player making
+the testing procedure a little more difficult. The Goodies were the ones 
+causing the animation issue when the bullies picked them up as well. this
+caused a bit of a headache, but overall was fixable. Gates were constantly 
+tested as the game became complete. This was to make sure the player was
+being placed in the correct locations every time a gate was used and that
+all the objects in the sublevel were correct as well. The Exit was constantly
+tested, being that it was controlled by other objects on all other sublevels.
+All enemy classes were tested throughout the game making sure that act the way 
+they're expected to and that they interacted with the environment properly.
+This was probably the most tested portion of the game.
+
+The FarplaneGun was tested after all bullies and gangsters were created. This
+was because the gun needed these objects in order to be tested. After the gun
+kills all bullies and gangsters in a certain region, the farplane gun was not
+tested much after that, besides gameplay.
+
+By far the most tested class was the StudentWorld. Being that this is what 
+controls the entire game, this made sense. From the very being of coding to
+the very end, this class was constantly tested and retested. Any time a new
+feature was added to any other class, this class was tested.
